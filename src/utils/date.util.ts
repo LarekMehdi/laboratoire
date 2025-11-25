@@ -13,4 +13,10 @@ export abstract class UtilDate {
     static addMinutes(date: Date, minutes: number): Date {
         return new Date(date.getTime() + minutes * 60000);
     }
+
+    // calcul l'écart en minute entre 2 dates
+    static getMinuteDifference(date1: Date, date2: Date): number {
+        const diffMs = Math.abs(date1.getTime() - date2.getTime());
+        return Math.round(diffMs / 60000);
+    }
 }

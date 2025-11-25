@@ -29,7 +29,7 @@ export abstract class PlannificationService {
             // trouver le premier créneau commun
             const occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
     
-            // on prends le premier de chaques
+            // premiere ressource dispo
             const technician: Technician = UtilCollection.pickResourceForSlot<Technician>(technicianList, occupiedSlot, occupiedSlotsByTechnicianId);
             const equipment: Equipment = UtilCollection.pickResourceForSlot<Equipment>(equipmentList, occupiedSlot, occupiedSlotsByEquipmentId);
     

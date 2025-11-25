@@ -10,6 +10,7 @@ import { Sample } from "./interfaces/sample.class";
 import { ScheduleEntry } from "./interfaces/schedule-entry.class";
 import { ScheduleSlot } from "./interfaces/schedule-slot.interface";
 import { Technician } from "./interfaces/technician.class";
+import { MetricService } from "./services/metric.service";
 import { PlannificationService } from "./services/plannification.service";
 import { UtilCollection } from "./utils/collection.util";
 import { UtilMapper } from "./utils/mapper.util";
@@ -39,6 +40,7 @@ function planifyLab(data: InputData): OutputData {
     const occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
 
     // garder une trace des échantillons traités
+    // TODO: inutile?
     const processedSamples = new Set<string>();
 
     // traiter les samples STATS
@@ -62,8 +64,8 @@ function planifyLab(data: InputData): OutputData {
 
 
     // création des résultats
-    const totalTime: number = 10;
-    const efficiency: number = 100;
+    const totalTime: number = MetricService.computeTotalTime(schedules);
+    const efficiency: number = MetricService.computeEfficiency(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId, totalTime);
     const conflict: number = 0;
     const metric = new Metric(totalTime, efficiency, conflict);
     return new OutputData(schedules, metric);
