@@ -1,6 +1,7 @@
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
+import { HasId } from "./has-id.class";
 
-export class Equipment {
+export class Equipment implements HasId{
     id: string;
     name: string;
     type: SAMPLE_TYPE;

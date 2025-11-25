@@ -1,6 +1,7 @@
 import { SPECIALITY } from "../constantes/speciality.constante";
+import { HasId } from "./has-id.class";
 
-export class Technician {
+export class Technician implements HasId{
 
     id:         string;
     name:       string;
