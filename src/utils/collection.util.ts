@@ -1,3 +1,5 @@
+import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
+
 export abstract class UtilCollection {
 
     // retourne une map indexée par l'attribut choisi
@@ -13,7 +15,7 @@ export abstract class UtilCollection {
         return map;
     }
 
-    // tris une list par l'attribut choisi
+    // tris une list sur l'attribut choisi
     static sortBy<T, K>(items: T[], keyFn: (item: T) => K, asc?: true): T[] {
         const sorted: T[] = items.slice().sort((a, b) => {
             const valA = keyFn(a);
@@ -24,5 +26,13 @@ export abstract class UtilCollection {
             return 0;
         });
         return sorted;
+    }
+
+    // retourne la premiere ressource dispo sur un slot donné
+    static pickResourceForSlot<T extends { id: string }>(resources: T[], slot: ScheduleSlot, occupied: Map<string, ScheduleSlot[]>): T {
+        const available: T | undefined = resources.find(r => (occupied.get(r.id) ?? []).every(s => slot.end <= s.start || slot.start >= s.end));
+        if (!available) throw new Error(`No resource available for slot ${slot.start.toISOString()} - ${slot.end.toISOString()}`);
+        
+        return available;
     }
 }

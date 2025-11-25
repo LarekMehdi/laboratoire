@@ -1,0 +1,1 @@
+export const MAX_DATE = new Date("2100-01-01");
