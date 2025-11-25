@@ -23,17 +23,19 @@ export abstract class UtilMapper {
 
         const technicians = raw.technicians.map((t: RawTechnician) => 
             new Technician(
-                t.id, t.name, 
+                t.id, 
                 this.toEnum<SPECIALITY>(t.speciality, SPECIALITY), 
                 UtilDate.parseStringToTime(t.startTime),
-                UtilDate.parseStringToTime(t.endTime)
+                UtilDate.parseStringToTime(t.endTime),
+                t.name
             ));
 
         const equipment = raw.equipment.map((e: RawEquipment) => 
             new Equipment( 
-                e.id, e.name, 
+                e.id, 
                 this.toEnum<SAMPLE_TYPE>(e.type, SAMPLE_TYPE), 
-                e.available
+                e.available,
+                e.name
             ));
 
         return new InputData(samples, technicians, equipment);

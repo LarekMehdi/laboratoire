@@ -9,7 +9,7 @@ export interface RawSample {
 
 export interface RawTechnician {
   id: string;
-  name: string;
+  name?: string;
   speciality: string;
   startTime: string;
   endTime: string;
@@ -17,7 +17,7 @@ export interface RawTechnician {
 
 export interface RawEquipment {
   id: string;
-  name: string;
+  name?: string;
   type: string;
   available: boolean;
 }
