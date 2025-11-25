@@ -42,8 +42,8 @@ export abstract class PlannificationService {
                 sampleId: sample.id,
                 technicianId: technician.id,
                 equipmentId: equipment.id,
-                startTime: occupiedSlot.start,
-                endTime: occupiedSlot.end,
+                startTime: UtilDate.parseDateToHourString(occupiedSlot.start),
+                endTime: UtilDate.parseDateToHourString(occupiedSlot.end),
                 priority: sample.priority
             };
             schedules.push(schedule);

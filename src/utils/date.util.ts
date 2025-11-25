@@ -9,6 +9,17 @@ export abstract class UtilDate {
         return date;
     }
 
+    // parse "10:00" en millisecondes
+    static parseTimeStringToMs(time: string): number {
+        const [hours, minutes] = time.split(":").map(Number);
+        return (hours * 60 + minutes) * 60 * 1000;
+    }
+
+    // parse une Date en "10:00"
+    static parseDateToHourString(date: Date): string {
+        return date.toTimeString().slice(0, 5);
+    }
+
     // ajoute un nombre de minutes à une date donnée
     static addMinutes(date: Date, minutes: number): Date {
         return new Date(date.getTime() + minutes * 60000);
