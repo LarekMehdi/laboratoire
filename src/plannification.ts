@@ -1,7 +1,7 @@
 import { PRIORITY } from "./constantes/priority.constante";
 import { SAMPLE_TYPE } from "./constantes/sample-type.constante";
 import { SPECIALITY } from "./constantes/speciality.constante";
-import { inputSimple1, inputSimple2 } from "./inputs/simple.input";
+import { inputSimple1, inputSimple2, inputSimple3 } from "./inputs/simple.input";
 import { Equipment } from "./interfaces/equipment.class";
 import { InputData } from "./interfaces/input-data.class";
 import { Metric } from "./interfaces/metric.class";
@@ -73,9 +73,12 @@ function planifyLab(data: InputData): OutputData {
 
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
+//const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
 
 const result1: OutputData = planifyLab(simpleInput1);
 const result2: OutputData = planifyLab(simpleInput2);
+//const result3: OutputData = planifyLab(simpleInput3);
 
 //console.log('result 1 => ', result1);
-console.log('result 2 => ', result2);
+console.log('result 2 => ', JSON.stringify(result2, null, 2));
+//console.log('result 3 => ', result3);
