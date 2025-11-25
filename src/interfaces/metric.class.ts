@@ -2,11 +2,11 @@ export class Metric {
 
     totalTime: number;
     efficiency: number;
-    conflict: number;
+    conflicts: number;
 
-    constructor(totalTime: number, efficiency: number, conflict: number) {
+    constructor(totalTime: number, efficiency: number, conflicts: number) {
         this.totalTime = totalTime;
         this.efficiency = efficiency;
-        this.conflict = conflict;
+        this.conflicts = conflicts;
     }
 }
