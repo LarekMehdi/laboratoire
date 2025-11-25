@@ -7,11 +7,11 @@ export class Sample {
     type:           SAMPLE_TYPE;
     priority:       PRIORITY;
     analysisTime:   number;
-    arrivalTime:    string;
+    arrivalTime:    Date;
     patientId:      string;
 
 
-    constructor(id: string, type: SAMPLE_TYPE, priority: PRIORITY, analysisTime: number, arrivalTime: string, patientId: string) {
+    constructor(id: string, type: SAMPLE_TYPE, priority: PRIORITY, analysisTime: number, arrivalTime: Date, patientId: string) {
         this.id = id;
         this.type = type;
         this.priority = priority;

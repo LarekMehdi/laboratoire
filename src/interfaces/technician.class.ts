@@ -5,10 +5,10 @@ export class Technician {
     id:         string;
     name:       string;
     speciality: SPECIALITY;
-    startTime:  string;          // TODO: Date?
-    endTime:    string;
+    startTime:  Date;          
+    endTime:    Date;
 
-    constructor(id: string, name: string, speciality: SPECIALITY, startTime: string, endTime: string) {
+    constructor(id: string, name: string, speciality: SPECIALITY, startTime: Date, endTime: Date) {
         this.id = id;
         this.name = name;
         this.speciality = speciality;
