@@ -12,4 +12,17 @@ export abstract class UtilCollection {
         }
         return map;
     }
+
+    // tris une list par l'attribut choisi
+    static sortBy<T, K>(items: T[], keyFn: (item: T) => K, asc?: true): T[] {
+        const sorted: T[] = items.slice().sort((a, b) => {
+            const valA = keyFn(a);
+            const valB = keyFn(b);
+
+            if (valA < valB) return asc ? -1 : 1;
+            if (valA > valB) return asc ? 1 : -1;
+            return 0;
+        });
+        return sorted;
+    }
 }

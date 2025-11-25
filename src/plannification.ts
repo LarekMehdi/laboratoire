@@ -25,6 +25,17 @@ function planifyLab(data: InputData): OutputData {
     console.log('techniciansBySpeciality => ', techniciansBySpeciality);
     console.log('equipmentsByType => ', equipmentsByType);
 
+    // traitement des échantillons par priorités
+    const statSamples: Sample[] = samplesByPriority.get(PRIORITY.STAT) ?? [];
+    const urgentSamples: Sample[] = samplesByPriority.get(PRIORITY.URGENT) ?? [];
+    const routineSamples: Sample[] = samplesByPriority.get(PRIORITY.ROUTINE) ?? [];
+
+    // rangement des samples par heure d'arrivée
+    const sortedStatSamples: Sample[] = UtilCollection.sortBy(statSamples, (s) => s.arrivalTime);
+
+
+
+
     
 
 
