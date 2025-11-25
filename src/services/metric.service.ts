@@ -33,7 +33,29 @@ export abstract class MetricService {
         return (totalActiveMinutes / totalTime) * 100;
     }
 
-    static computeConflicts() {
+    static computeConflicts(occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]>, occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]>): number {
+        let conflict = 0;
 
+        const maps = [occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId];
+
+        for (const occupiedSlotsByResourceId of maps) {
+            for (const slots of occupiedSlotsByResourceId.values()) {
+                
+                // tris par startTime
+                const sortedSlots = slots.slice().sort((a, b) => a.start.getTime() - b.start.getTime());
+
+                for (let i = 0; i < sortedSlots.length - 1; i++) {
+                    const current = sortedSlots[i];
+                    const next = sortedSlots[i + 1];
+
+                    // si se termine aprés le début de la suivante
+                    if (current.end > next.start) {
+                        conflict++;
+                    }
+                }
+            }
+        }
+
+        return conflict;
     }
 }

@@ -66,7 +66,7 @@ function planifyLab(data: InputData): OutputData {
     // création des résultats
     const totalTime: number = MetricService.computeTotalTime(schedules);
     const efficiency: number = MetricService.computeEfficiency(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId, totalTime);
-    const conflict: number = 0;
+    const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
     return new OutputData(schedules, metric);
 }
