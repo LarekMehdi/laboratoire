@@ -9,8 +9,8 @@ export abstract class MetricService {
         if (schedules.length === 0) return 0;
 
         // regroupement des dates
-        const startTimes: number[] = schedules.map(s => UtilDate.parseTimeStringToMs(s.startTime));
-        const endTimes: number[] = schedules.map(s => UtilDate.parseTimeStringToMs(s.endTime));
+        const startTimes: number[] = schedules.map(s => s.startTime.getTime());
+        const endTimes: number[] = schedules.map(s => s.endTime.getTime());
 
         // le premier startTime et le dernier endTime
         const minStart = new Date(Math.min(...startTimes));
@@ -48,7 +48,7 @@ export abstract class MetricService {
         if (schedules.length === 0 || totalTime === 0) return 0;
 
         // récupérer tous les intervalles en milisecondes
-        const intervals: ScheduleSlotMillisecond[] = schedules.map(s => ({ start: UtilDate.parseTimeStringToMs(s.startTime), end: UtilDate.parseTimeStringToMs(s.endTime) }));
+        const intervals: ScheduleSlotMillisecond[] = schedules.map(s => ({ start: s.startTime.getTime(), end: s.endTime.getTime() }));
         
         // trier par startTime
         intervals.sort((a, b) => a.start - b.start);

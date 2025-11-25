@@ -80,5 +80,6 @@ const result2: OutputData = planifyLab(simpleInput2);
 //const result3: OutputData = planifyLab(simpleInput3);
 
 //console.log('result 1 => ', result1);
-console.log('result 2 => ', JSON.stringify(result2, null, 2));
+//console.log('result 2 => ', JSON.stringify(result2, null, 2));
+console.log('result 2 => ', result2);
 //console.log('result 3 => ', result3);
