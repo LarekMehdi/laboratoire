@@ -10,7 +10,7 @@ export class Equipment implements HasId{
     compatibleTypes?: string[];
     capacity?: number;
     maintenanceWindow?: Date;
-    cleaningTime?: 10;
+    cleaningTime?: number;
 
     constructor(id: string, type: SAMPLE_TYPE, name?: string, available?: boolean) {
         this.id = id;

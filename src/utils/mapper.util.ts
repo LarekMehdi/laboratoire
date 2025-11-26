@@ -10,6 +10,9 @@ import { Equipment } from "../classes/equipment.class";
 import { Sample } from "../classes/sample.class";
 import { Technician } from "../classes/technician.class";
 import { InvalidEnumValueError } from "../errors/invalid-enum-value.error";
+import { PatientInfo } from "../classes/patient-info.class";
+import { Laboratory } from "../classes/laboratory.class";
+import { Constraint } from "../classes/constraint.class";
 
 export abstract class UtilMapper {
 
@@ -46,43 +49,73 @@ export abstract class UtilMapper {
         return new InputData(samples, technicians, equipment);
     }
 
-    // TODO: fussionner les deux mapper
-    // static mapIntermediaryInputData(raw: RawIntermediaryInputData): InputData {
-    //     const samples = raw.samples.map((s: RawIntermediarySample) => 
-    //         new Sample(
-    //             s.id,
-    //             this.toEnum<SAMPLE_TYPE>(s.type, SAMPLE_TYPE), 
-    //             this.toEnum<PRIORITY>(s.priority, PRIORITY), 
-    //             s.analysisTime, 
-    //             UtilDate.parseStringToTime(s.arrivalTime),
+    // TODO: fusionner les deux mapper + refacto
+    static mapIntermediaryInputData(raw: RawIntermediaryInputData): InputData {
+        const samples: Sample[] = [];
+        for (const rawSample of raw.samples) {
+            const s: Sample = new Sample(
+                rawSample.id,
+                this.toEnum<SAMPLE_TYPE>(rawSample.type, SAMPLE_TYPE), 
+                this.toEnum<PRIORITY>(rawSample.priority, PRIORITY), 
+                rawSample.analysisTime, 
+                UtilDate.parseStringToTime(rawSample.arrivalTime),
+            );
+            s.analysisType = rawSample.analysisType;
+            // TODO: PatientInfo
+            //s.patientInfo = new PatientInfo(rawSample.patientInfo?.age, rawSample.patientInfo?.service, rawSample.patientInfo?.diagnosis);
 
-    //         ));
+            samples.push(s);
+        }
+  
+        const technicians: Technician[] = [];
+        for (const rawTechnician of raw.technicians) {
+            const t: Technician = new Technician(
+                rawTechnician.id, 
+                this.toEnums<SPECIALITY>(rawTechnician.specialty, SPECIALITY), 
+                UtilDate.parseStringToTime(rawTechnician.startTime),
+                UtilDate.parseStringToTime(rawTechnician.endTime),
+                rawTechnician.name,
+            );
+            t.efficiency = rawTechnician.efficiency;
+            t.lunchBreak = UtilDate.parseStringToTime(rawTechnician.lunchBreak);
+            technicians.push(t);
+        }
 
-    //     const technicians = raw.technicians.map((t: RawIntermediaryTechnician) => 
-    //         new Technician(
-    //             t.id, 
-    //             this.toEnums<SPECIALITY>(t.specialty, SPECIALITY), 
-    //             UtilDate.parseStringToTime(t.startTime),
-    //             UtilDate.parseStringToTime(t.endTime),
-    //             t.name,
+        const equipments: Equipment[] = [];
+        for (const rawEquipment of raw.equipment) {
+            const e: Equipment = new Equipment(
+                rawEquipment.id, 
+                this.toEnum<SAMPLE_TYPE>(rawEquipment.type, SAMPLE_TYPE), 
+                rawEquipment.name
+            );
+            e.compatibleTypes = rawEquipment.compatibleTypes;
+            e.capacity = rawEquipment.capacity;
+            e.maintenanceWindow = UtilDate.parseStringToTime(rawEquipment.maintenanceWindow);
+            e.cleaningTime = rawEquipment.cleaningTime;
+            equipments.push(e);
+        }
+        
 
-    //         ));
+        // laboratory
+        // const laboratory: Laboratory = new Laboratory(
+        //     raw.laboratory.name,
+        //     raw.laboratory.openingHours, // parser une string en 2 dates
+        //     raw.laboratory.date
+        // );
 
-    //     const equipment = raw.equipment.map((e: RawIntermediaryEquipment) => 
-    //         new Equipment( 
-    //             e.id, 
-    //             this.toEnum<SAMPLE_TYPE>(e.type, SAMPLE_TYPE), 
-                
-    //             e.name
-    //         ));
+        // constraint
+        const constraint: Constraint = new Constraint(
+            raw.constraints.maxProcessingTime,
+            this.toEnums<PRIORITY>(raw.constraints.priorityRules, PRIORITY), 
+            raw.constraints.contaminationPrevention,
+            raw.constraints.parallelProcessing
+        );
 
-    //     // laboratory
-
-    //     // constraint
-
-    //     const inputData: InputData = new InputData(samples, technicians, equipment);
-    //     return inputData;
-    // }
+        const inputData: InputData = new InputData(samples, technicians, equipments);
+        //inputData.laboratory = laboratory;
+        inputData.constraints = constraint;
+        return inputData;
+    }
 
     // ENUM
 

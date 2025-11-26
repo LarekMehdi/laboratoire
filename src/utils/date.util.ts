@@ -1,7 +1,8 @@
 export abstract class UtilDate {
 
     // parse une string d'heure en dateTime (jour arbitraire)
-    static parseStringToTime(sTime: string): Date {
+    static parseStringToTime(sTime?: string): Date {
+        if (!sTime) return new Date(); // TODO: Fix temporaire
         const [hour, minute] = sTime.split(":").map(Number);
         const date = new Date();
         date.setHours(hour, minute, 0, 0);
