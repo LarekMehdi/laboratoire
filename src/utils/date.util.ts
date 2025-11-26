@@ -20,12 +20,6 @@ export abstract class UtilDate {
         return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // TODO: a supprimer?
-    // parse une Date en "10:00"
-    static parseDateToHourString(date: Date): string {
-        return date.toTimeString().slice(0, 5);
-    }
-
     // ajoute un nombre de minutes à une date donnée
     static addMinutes(date: Date, minutes: number): Date {
         return new Date(date.getTime() + minutes * 60000);
