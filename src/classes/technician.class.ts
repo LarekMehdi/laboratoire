@@ -5,9 +5,12 @@ export class Technician implements HasId{
 
     id:         string;
     name?:       string;
-    speciality: SPECIALITY;
+    speciality: SPECIALITY;     // TODO: SPECIALITY[]
     startTime:  Date;          
     endTime:    Date;
+
+    efficiency?: number;
+    lunchBreak?: Date;
 
     constructor(id: string, speciality: SPECIALITY, startTime: Date, endTime: Date,  name?: string) {
         this.id = id;

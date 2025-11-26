@@ -1,6 +1,7 @@
 import { PRIORITY } from "../constantes/priority.constante";
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
 import { HasId } from "../interfaces/has-id.interface";
+import { PatientInfo } from "./patient-info.class";
 
 export class Sample implements HasId{
 
@@ -10,6 +11,9 @@ export class Sample implements HasId{
     analysisTime:   number;
     arrivalTime:    Date;
     patientId:      string;
+
+    analysisType?:  string;
+    patientInfo?:   PatientInfo;
 
 
     constructor(id: string, type: SAMPLE_TYPE, priority: PRIORITY, analysisTime: number, arrivalTime: Date, patientId: string) {

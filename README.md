@@ -1,6 +1,23 @@
-# laboratoire
+# Laboratoire - Système de Planification
 
-# 1. Installation
+# 1. Description
+
+Le projet résout le problème de la planification des analyses de laboratoire. 
+Pour chaque échantillon, il identifie le technicien et l'équipement disponibles pour réaliser l'analyse à temps, en tenant compte des contraintes suivantes :
+- Les spécialités des techniciens
+- Les créneaux déjà occupés
+- Les indisponibilités spécifiques des équipements
+- La durée de chaque analyse
+L'objectif est de maximiser l'utilisation des ressources tout en respectant les délais d'arrivée des échantillons.
+
+
+## Évolution depuis version SIMPLE
+
+- ajout d'interfaces pour les nouveaux jeux de données
+- maj des entités existantes pour accepter les nouveaux attributs
+- création de constantes pour les nouvelles contraintes
+
+# 2. Installation
 
 ### Prérequis
 - Node.js version 20.x ou supérieure
@@ -15,14 +32,14 @@ npm install
 ```
 
 
-# 2. Exécution
+# 3. Exécution
 
 ### Exécuter le code 
 ```bash
 npm run dev
 ```
 
-# 3. Choix de développement
+# 4. Choix de développement
 
 - Entités métier (classes): Les entités métier sont des classes afin de pouvoir ajouter facilement des méthodes et comportements spécifiques à chaque objet, encapsuler les données et profiter de l’héritage si nécessaire.
 
@@ -36,14 +53,14 @@ npm run dev
 
 - Constantes: Toutes les constantes sont définies sous forme d’enum et centralisées dans un dossier dédié. Cela permet de garantir la cohérence des valeurs utilisées dans l’ensemble du projet, d’éviter les erreurs liées aux chaînes de caractères ou nombres magique, et de faciliter la maintenance et l’évolution.
 
-# 4. Point d'entrée
+# 5. Point d'entrée
 **index.ts**
 
 - Rôle: Ce fichier test un jeu de donnée à travers la fonction planifyLab de lab.service.ts.
 
 Cette fonction illustre comment les différentes couches (classes métiers, services, utils et constantes) interagissent. Les entités encapsulent les données métier, les services gèrent la logique (planification et métriques), les utils fournissent des fonctions réutilisables (tri, regroupement, mapping), et les constantes assurent la cohérence des valeurs utilisées dans tout le projet.
 
-# 5. Dolléances
+# 6. Dolléances
 
 Le calcul de l'efficacité et du temps total ne semble pas correspondre entre les sorties attendus et le calcul décrit dans le cdc.
 

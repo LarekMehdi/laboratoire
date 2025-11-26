@@ -1,6 +1,6 @@
 import { RawIntermediaryInputData } from "../interfaces/raw.interface";
 
-export const intermediary1: RawIntermediaryInputData = {
+export const intermediary0: RawIntermediaryInputData = {
   "laboratory": {
     "name": "Laboratoire Central Médical",
     "openingHours": "07:00-19:00",
@@ -416,6 +416,63 @@ export const intermediary1: RawIntermediaryInputData = {
     "capacity": 1,
     "maintenanceWindow": "19:00-20:00",
     "cleaningTime": 30
+    }
+  ],
+  "constraints": {
+    "maxProcessingTime": 720,
+    "priorityRules": ["STAT", "URGENT", "ROUTINE"],
+    "contaminationPrevention": true,
+    "parallelProcessing": true
+  }
+}
+
+
+export const intermediary1: RawIntermediaryInputData = {
+  "laboratory": {
+    "name": "Laboratoire Central Médical",
+    "openingHours": "07:00-19:00",
+    "date": "2025-03-15"
+  },
+  "samples": [
+    {
+      "id": "S001",
+      "priority": "ROUTINE",
+      "type": "BLOOD",
+      "analysisType": "Bilan lipidique",
+      "analysisTime": 30,
+      "arrivalTime": "09:00"
+    },
+    {
+      "id": "S002",
+      "priority": "URGENT",
+      "type": "BLOOD",
+      "analysisType": "Numération complète",
+      "analysisTime": 45,
+      "arrivalTime": "09:15"
+    }
+  ],
+  "technicians": [
+    {
+      "id": "TECH001",
+      "specialty": ["BLOOD", "CHEMISTRY"],
+      "efficiency": 1.0,
+      "startTime": "08:00",
+      "endTime": "17:00",
+      "lunchBreak": "12:00-13:00"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "EQ001",
+      "type": "BLOOD",
+      "capacity": 1,
+      "cleaningTime": 10
+    },
+    {
+      "id": "EQ002",
+      "type": "CHEMISTRY",
+      "capacity": 1,
+      "cleaningTime": 15
     }
   ],
   "constraints": {

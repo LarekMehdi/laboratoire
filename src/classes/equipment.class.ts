@@ -5,7 +5,12 @@ export class Equipment implements HasId{
     id: string;
     name?: string;
     type: SAMPLE_TYPE;
-    available: boolean;
+    available?: boolean;
+
+    compatibleTypes?: string[];
+    capacity?: number;
+    maintenanceWindow?: Date;
+    cleaningTime?: 10;
 
     constructor(id: string, type: SAMPLE_TYPE, available: boolean, name?: string) {
         this.id = id;

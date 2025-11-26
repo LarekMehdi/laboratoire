@@ -57,12 +57,12 @@ export interface RawIntermediarySample {
   analysisType: string;
   analysisTime: number;
   arrivalTime: string;
-  patientInfo: RawPatientInfo;
+  patientInfo?: RawPatientInfo;
 }
 
 export interface RawIntermediaryTechnician {
   id: string;
-  name: string;
+  name?: string;
   specialty: string[];
   efficiency: number;
   startTime: string;
@@ -72,11 +72,11 @@ export interface RawIntermediaryTechnician {
 
 export interface RawIntermediaryEquipment {
   id: string;
-  name: string;
+  name?: string;
   type: string;
-  compatibleTypes: string[];
+  compatibleTypes?: string[];
   capacity: number;
-  maintenanceWindow: string;
+  maintenanceWindow?: string;
   cleaningTime: number;
 }
 
