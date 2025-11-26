@@ -4,15 +4,15 @@ import { HasId } from "../interfaces/has-id.interface";
 export class Technician implements HasId{
 
     id:         string;
-    name?:       string;
-    speciality: SPECIALITY;     // TODO: SPECIALITY[]
+    name?:      string;
+    speciality: SPECIALITY[];
     startTime:  Date;          
     endTime:    Date;
 
     efficiency?: number;
     lunchBreak?: Date;
 
-    constructor(id: string, speciality: SPECIALITY, startTime: Date, endTime: Date,  name?: string) {
+    constructor(id: string, speciality: SPECIALITY[], startTime: Date, endTime: Date,  name?: string) {
         this.id = id;
         this.name = name;
         this.speciality = speciality;

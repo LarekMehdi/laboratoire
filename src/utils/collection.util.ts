@@ -17,6 +17,21 @@ export abstract class UtilCollection {
         return map;
     }
 
+    // Comme groupBy, mais gère plusieurs clés par élément
+    static groupByMultipleKeys<T, K>(items: T[], keyFn: (item: T) => K[]): Map<K, T[]> {
+
+        const map: Map<K, T[]> = new Map<K, T[]>();
+        for (const item of items) {
+            const keys = keyFn(item);
+            for (const key of keys) {
+                const itemList = map.get(key) ?? [];
+                itemList.push(item);
+                map.set(key, itemList);
+            }
+        }
+        return map;
+    }
+
     // tris une list sur l'attribut choisi
     static sortBy<T, K>(items: T[], keyFn: (item: T) => K, asc?: true): T[] {
         const sorted: T[] = items.slice().sort((a, b) => {

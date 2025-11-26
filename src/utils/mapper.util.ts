@@ -29,7 +29,7 @@ export abstract class UtilMapper {
         const technicians = raw.technicians.map((t: RawTechnician) => 
             new Technician(
                 t.id, 
-                this.toEnum<SPECIALITY>(t.speciality, SPECIALITY), 
+                this.toEnums<SPECIALITY>([t.speciality], SPECIALITY), 
                 UtilDate.parseStringToTime(t.startTime),
                 UtilDate.parseStringToTime(t.endTime),
                 t.name
@@ -95,7 +95,7 @@ export abstract class UtilMapper {
 
     static toEnums<T>(values: string[], enumType: Record<string, T>): T[] {
     return values.map(value => {
-        if (!Object.values(enumType).includes(value as unknown as T)) {
+        if (!Object.values(enumType).includes(value as T)) {
             throw new InvalidEnumValueError(value);
         }
         return value as T;

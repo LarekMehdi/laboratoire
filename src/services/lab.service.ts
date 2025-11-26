@@ -24,7 +24,7 @@ export abstract class LabService {
 
         // organisation des données
         const samplesByPriority: Map<PRIORITY, Sample[]> = UtilCollection.groupBy(samples, (s) => s.priority);
-        const techniciansBySpeciality: Map<SPECIALITY, Technician[]> = UtilCollection.groupBy(technicians, (t) => t.speciality);
+        const techniciansBySpeciality: Map<SPECIALITY, Technician[]> = UtilCollection.groupByMultipleKeys(technicians, (t) => t.speciality);
         const equipmentsByType: Map<SAMPLE_TYPE, Equipment[]> = UtilCollection.groupBy(equipments, (e) => e.type);
         const occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
         const occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
