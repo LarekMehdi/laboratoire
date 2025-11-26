@@ -69,14 +69,13 @@ function planifyLab(data: InputData): OutputData {
 
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
-console.log('inputSimple2 => ', inputSimple2);
-//const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
+const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
 
 const result1: OutputData = planifyLab(simpleInput1);
 const result2: OutputData = planifyLab(simpleInput2);
-//const result3: OutputData = planifyLab(simpleInput3);
+const result3: OutputData = planifyLab(simpleInput3);
 
 //console.log('result 1 => ', result1);
 //console.log('result 2 => ', JSON.stringify(result2, null, 2));
-console.log('result 2 => ', result2);
-//console.log('result 3 => ', result3);
+//console.log('result 2 => ', result2);
+console.log('result 3 => ', result3);

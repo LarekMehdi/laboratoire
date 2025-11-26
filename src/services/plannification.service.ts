@@ -19,15 +19,31 @@ export abstract class PlannificationService {
         for (const sample of samples) {
             // liste des techos
             let spe: SPECIALITY = UtilConstante.findTechnicianSpecialityForSampleType(sample.type);
-            const technicianList: Technician[] = techniciansBySpeciality.get(spe) ?? [];
+            let technicianList: Technician[] = techniciansBySpeciality.get(spe) ?? [];
             // liste des équipement
             const equipmentList: Equipment[] = equipmentsByType.get(sample.type) ?? [];
     
-            const technicianSlots = technicianList.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
+            let technicianSlots = technicianList.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
             const equipmentSlots = equipmentList.map(e => this.getAvailableSlots(occupiedSlotsByEquipmentId.get(e.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
     
+
             // trouver le premier créneau commun
-            const occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
+            let occupiedSlot: ScheduleSlot;
+            try {
+                // spécialité normale
+                occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
+            } catch(err: unknown) {
+                // spécialité GENERAL
+                const generalTechs = techniciansBySpeciality.get(SPECIALITY.GENERAL) ?? [];
+
+                if (generalTechs.length === 0) throw new Error("No available common slot, even with general technician");
+
+                technicianList = generalTechs;
+                technicianSlots = generalTechs.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
+
+                occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
+            }
+            
     
             // premiere ressource dispo
             const technician: Technician = UtilCollection.pickResourceForSlot<Technician>(technicianList, occupiedSlot, occupiedSlotsByTechnicianId);
@@ -75,7 +91,7 @@ export abstract class PlannificationService {
                 }
             }
         }
-        // TODO: prendre un technicien GENERAL
+        // TODO: erreur personnalisée
         throw new Error("No available common slot");
     }
 }
