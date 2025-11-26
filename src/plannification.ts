@@ -8,6 +8,7 @@ import { Metric } from "./interfaces/metric.class";
 import { OutputData } from "./interfaces/output-data.class";
 import { Sample } from "./interfaces/sample.class";
 import { ScheduleEntry } from "./interfaces/schedule-entry.class";
+import { ScheduleOutput } from "./interfaces/schedule-output.interface";
 import { ScheduleSlot } from "./interfaces/schedule-slot.interface";
 import { Technician } from "./interfaces/technician.class";
 import { MetricService } from "./services/metric.service";
@@ -60,7 +61,10 @@ function planifyLab(data: InputData): OutputData {
     const efficiency: number = MetricService.computeEfficiency(schedules, totalTime);
     const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
-    return new OutputData(schedules, metric);
+
+    // formattage des schedules pour affichage des dates
+    const formattedSchedules: ScheduleOutput[] = UtilMapper.mapScheduleEntryToOutput(schedules);
+    return new OutputData(formattedSchedules, metric);
 }
 
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);

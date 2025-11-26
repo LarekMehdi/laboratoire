@@ -11,6 +11,7 @@ export abstract class MetricService {
         const minArrival = Math.min(...samples.map(s => s.arrivalTime.getTime()));
         const maxEnd = Math.max(...schedules.map(s => s.endTime.getTime()));
 
+        // TODO: methode util
         return (maxEnd - minArrival) / 60000;
     }
 
