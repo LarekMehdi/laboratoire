@@ -2,7 +2,7 @@ import { PRIORITY } from "../constantes/priority.constante";
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
 import { SPECIALITY } from "../constantes/speciality.constante";
 import { InputData } from "../classes/input-data.class";
-import { RawEquipment, RawInputData, RawSample, RawTechnician } from "../interfaces/raw.interface";
+import { RawEquipment, RawInputData, RawIntermediaryEquipment, RawIntermediaryInputData, RawIntermediarySample, RawIntermediaryTechnician, RawSample, RawTechnician } from "../interfaces/raw.interface";
 import { ScheduleEntry } from "../classes/schedule-entry.class";
 import { ScheduleOutput } from "../interfaces/schedule-output.interface";
 import { UtilDate } from "./date.util";
@@ -38,13 +38,51 @@ export abstract class UtilMapper {
         const equipment = raw.equipment.map((e: RawEquipment) => 
             new Equipment( 
                 e.id, 
-                this.toEnum<SAMPLE_TYPE>(e.type, SAMPLE_TYPE), 
+                this.toEnum<SAMPLE_TYPE>(e.type, SAMPLE_TYPE),
+                e.name, 
                 e.available,
-                e.name
             ));
 
         return new InputData(samples, technicians, equipment);
     }
+
+    // TODO: fussionner les deux mapper
+    // static mapIntermediaryInputData(raw: RawIntermediaryInputData): InputData {
+    //     const samples = raw.samples.map((s: RawIntermediarySample) => 
+    //         new Sample(
+    //             s.id,
+    //             this.toEnum<SAMPLE_TYPE>(s.type, SAMPLE_TYPE), 
+    //             this.toEnum<PRIORITY>(s.priority, PRIORITY), 
+    //             s.analysisTime, 
+    //             UtilDate.parseStringToTime(s.arrivalTime),
+
+    //         ));
+
+    //     const technicians = raw.technicians.map((t: RawIntermediaryTechnician) => 
+    //         new Technician(
+    //             t.id, 
+    //             this.toEnums<SPECIALITY>(t.specialty, SPECIALITY), 
+    //             UtilDate.parseStringToTime(t.startTime),
+    //             UtilDate.parseStringToTime(t.endTime),
+    //             t.name,
+
+    //         ));
+
+    //     const equipment = raw.equipment.map((e: RawIntermediaryEquipment) => 
+    //         new Equipment( 
+    //             e.id, 
+    //             this.toEnum<SAMPLE_TYPE>(e.type, SAMPLE_TYPE), 
+                
+    //             e.name
+    //         ));
+
+    //     // laboratory
+
+    //     // constraint
+
+    //     const inputData: InputData = new InputData(samples, technicians, equipment);
+    //     return inputData;
+    // }
 
     // ENUM
 
@@ -54,6 +92,15 @@ export abstract class UtilMapper {
         }
         return value as T;
     }
+
+    static toEnums<T>(values: string[], enumType: Record<string, T>): T[] {
+    return values.map(value => {
+        if (!Object.values(enumType).includes(value as unknown as T)) {
+            throw new InvalidEnumValueError(value);
+        }
+        return value as T;
+    });
+}
 
     // OUTPUT
 

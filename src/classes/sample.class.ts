@@ -10,13 +10,13 @@ export class Sample implements HasId{
     priority:       PRIORITY;
     analysisTime:   number;
     arrivalTime:    Date;
-    patientId:      string;
+    patientId?:     string;
 
     analysisType?:  string;
     patientInfo?:   PatientInfo;
 
 
-    constructor(id: string, type: SAMPLE_TYPE, priority: PRIORITY, analysisTime: number, arrivalTime: Date, patientId: string) {
+    constructor(id: string, type: SAMPLE_TYPE, priority: PRIORITY, analysisTime: number, arrivalTime: Date, patientId?: string) {
         this.id = id;
         this.type = type;
         this.priority = priority;
