@@ -1,7 +1,7 @@
 import { PRIORITY } from "./constantes/priority.constante";
 import { SAMPLE_TYPE } from "./constantes/sample-type.constante";
 import { SPECIALITY } from "./constantes/speciality.constante";
-import { inputSimple1, inputSimple2, inputSimple3 } from "./inputs/simple.input";
+import { inputSimple1, inputSimple2, inputSimple3, inputSimple4, inputSimple5, inputSimple6, inputSimple7, inputSimple8 } from "./inputs/simple.input";
 import { Equipment } from "./interfaces/equipment.class";
 import { InputData } from "./interfaces/input-data.class";
 import { Metric } from "./interfaces/metric.class";
@@ -70,12 +70,27 @@ function planifyLab(data: InputData): OutputData {
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
 const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
+const simpleInput4: InputData = UtilMapper.mapInputData(inputSimple4);
+const simpleInput5: InputData = UtilMapper.mapInputData(inputSimple5);
+const simpleInput6: InputData = UtilMapper.mapInputData(inputSimple6);
+const simpleInput7: InputData = UtilMapper.mapInputData(inputSimple7);
+const simpleInput8: InputData = UtilMapper.mapInputData(inputSimple8);
 
 const result1: OutputData = planifyLab(simpleInput1);
 const result2: OutputData = planifyLab(simpleInput2);
 const result3: OutputData = planifyLab(simpleInput3);
+const result4: OutputData = planifyLab(simpleInput4);
+const result5: OutputData = planifyLab(simpleInput5);
+const result6: OutputData = planifyLab(simpleInput6);
+const result7: OutputData = planifyLab(simpleInput7);
+const result8: OutputData = planifyLab(simpleInput8);
 
 console.log('result 1 => ', result1);
 //console.log('result 2 => ', JSON.stringify(result2, null, 2));
 console.log('result 2 => ', result2);
 console.log('result 3 => ', result3);
+console.log('result 4 => ', result4);
+console.log('result 5 => ', result5);
+console.log('result 6 => ', result6);
+console.log('result 7 => ', result7);
+console.log('result 8 => ', result8);
