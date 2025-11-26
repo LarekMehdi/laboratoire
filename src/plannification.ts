@@ -62,11 +62,15 @@ function planifyLab(data: InputData): OutputData {
     const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
 
+    // trier les résulats par date de début
+    schedules.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+
     // formattage des schedules pour affichage des dates
     const formattedSchedules: ScheduleOutput[] = UtilMapper.mapScheduleEntryToOutput(schedules);
     return new OutputData(formattedSchedules, metric);
 }
 
+// jeux de test
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
 const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
@@ -86,7 +90,6 @@ const result7: OutputData = planifyLab(simpleInput7);
 const result8: OutputData = planifyLab(simpleInput8);
 
 console.log('result 1 => ', result1);
-//console.log('result 2 => ', JSON.stringify(result2, null, 2));
 console.log('result 2 => ', result2);
 console.log('result 3 => ', result3);
 console.log('result 4 => ', result4);
