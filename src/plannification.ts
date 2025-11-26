@@ -40,6 +40,7 @@ function planifyLab(data: InputData): OutputData {
     const occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
     const occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
 
+    // TODO: methode scheduleBypriority
     // traiter les samples STATS
     const statSchedules: ScheduleEntry[] = PlannificationService.getScheduleList(sortedStatSamples, techniciansBySpeciality, equipmentsByType, occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId);
     schedules = schedules.concat(statSchedules);
@@ -53,20 +54,19 @@ function planifyLab(data: InputData): OutputData {
     schedules = schedules.concat(routineSchedules);
 
     // création des résultats
+    // TODO: compute metrics
     const totalTime: number = MetricService.computeTotalTime(samples, schedules);
     const efficiency: number = MetricService.computeEfficiency(samples, schedules, totalTime);
     const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
 
-    // trier les résulats par date de début
-    schedules.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
-
     // formattage des schedules pour affichage des dates
-    const formattedSchedules: ScheduleOutput[] = UtilMapper.mapScheduleEntryToOutput(schedules);
+    const formattedSchedules: ScheduleOutput[] = UtilMapper.mapScheduleEntryToOutput(schedules.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()));
     return new OutputData(formattedSchedules, metric);
 }
 
 // jeux de test
+// TODO: for each
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
 const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
