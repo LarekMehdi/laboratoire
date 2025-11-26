@@ -37,11 +37,11 @@ npm run dev
 - Constantes: Toutes les constantes sont définies sous forme d’enum et centralisées dans un dossier dédié. Cela permet de garantir la cohérence des valeurs utilisées dans l’ensemble du projet, d’éviter les erreurs liées aux chaînes de caractères ou nombres magique, et de faciliter la maintenance et l’évolution.
 
 # 4. Point d'entrée
-**planification.ts**
+**index.ts**
 
-- Rôle: Ce fichier contient la fonction planifyLab, qui constitue le point d’entrée principal pour l’ordonnancement des échantillons. Elle reçoit un objet InputData (samples, technicians, equipment), et retourne un objet OutputData contenant le planning et les métriques associées.
+- Rôle: Ce fichier test un jeu de donnée à travers la fonction planifyLab de lab.service.ts.
 
-Ce point d’entrée illustre comment les différentes couches (classes métiers, services, utils et constantes) interagissent. Les entités encapsulent les données métier, les services gèrent la logique (planification et métriques), les utils fournissent des fonctions réutilisables (tri, regroupement, mapping), et les constantes assurent la cohérence des valeurs utilisées dans tout le projet.
+Cette fonction illustre comment les différentes couches (classes métiers, services, utils et constantes) interagissent. Les entités encapsulent les données métier, les services gèrent la logique (planification et métriques), les utils fournissent des fonctions réutilisables (tri, regroupement, mapping), et les constantes assurent la cohérence des valeurs utilisées dans tout le projet.
 
 # 5. Dolléances
 

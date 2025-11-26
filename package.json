@@ -2,9 +2,9 @@
   "name": "laboratoire",
   "version": "1.0.0",
   "description": "Plannification for laboratories",
-  "main": "src/plannification.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node src/plannification.ts",
+    "dev": "ts-node src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
