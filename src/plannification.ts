@@ -40,10 +40,6 @@ function planifyLab(data: InputData): OutputData {
     const occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
     const occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]> = new Map<string, ScheduleSlot[]>();
 
-    // garder une trace des échantillons traités
-    // TODO: inutile?
-    const processedSamples = new Set<string>();
-
     // traiter les samples STATS
     const statSchedules: ScheduleEntry[] = PlannificationService.getScheduleList(sortedStatSamples, techniciansBySpeciality, equipmentsByType, occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId);
     schedules = schedules.concat(statSchedules);
@@ -58,7 +54,7 @@ function planifyLab(data: InputData): OutputData {
 
     // création des résultats
     const totalTime: number = MetricService.computeTotalTime(samples, schedules);
-    const efficiency: number = MetricService.computeEfficiency(schedules, totalTime);
+    const efficiency: number = MetricService.computeEfficiency(samples, schedules, totalTime);
     const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
 
@@ -92,8 +88,8 @@ const result8: OutputData = planifyLab(simpleInput8);
 console.log('result 1 => ', result1);
 console.log('result 2 => ', result2);
 console.log('result 3 => ', result3);
-console.log('result 4 => ', result4);
-console.log('result 5 => ', result5);
-console.log('result 6 => ', result6);
-console.log('result 7 => ', result7);
-console.log('result 8 => ', result8);
+// console.log('result 4 => ', result4);
+// console.log('result 5 => ', result5);
+// console.log('result 6 => ', result6);
+// console.log('result 7 => ', result7);
+// console.log('result 8 => ', result8);

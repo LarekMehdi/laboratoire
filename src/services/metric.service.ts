@@ -1,34 +1,29 @@
 import { Sample } from "../interfaces/sample.class";
 import { ScheduleEntry } from "../interfaces/schedule-entry.class";
-import { ScheduleSlot, ScheduleSlotMillisecond } from "../interfaces/schedule-slot.interface";
-import { UtilDate } from "../utils/date.util";
+import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
 import { UtilNumber } from "../utils/number.util";
 
 export abstract class MetricService {
 
+
+    // - **Temps total** : Durée entre le début de la première analyse et la fin de la dernière analyse
     static computeTotalTime(samples: Sample[], schedules: ScheduleEntry[]): number {
         if (schedules.length === 0) return 0;
         const minArrival = Math.min(...samples.map(s => s.arrivalTime.getTime()));
         const maxEnd = Math.max(...schedules.map(s => s.endTime.getTime()));
-
-        // TODO: methode util
         return (maxEnd - minArrival) / 60000;
     }
 
-    static computeEfficiency(schedules: ScheduleEntry[], totalTime: number): number {
-        if (schedules.length === 0 || totalTime === 0) return 0;
-
-        // On additionne les durées des slots
-        const totalActiveMinutes = schedules.reduce((sum, s) => {
-            const start = s.startTime.getTime();
-            const end = s.endTime.getTime();
-            return sum + (end - start) / 60000;
-        }, 0);
-
-        // efficacité = charge totale / durée globale
-        const rawEfficiency = (totalActiveMinutes / totalTime) * 100;
-
-        return UtilNumber.roundOneDecimal(Math.min(rawEfficiency, 100));
+    // % de temps où les ressources sont utilisées
+    // (temps actif) / (temps total) * 100
+    // - **Somme des durées** : Addition de tous les `analysisTime` des échantillons
+    // - **Temps total** : Durée entre le début de la première analyse et la fin de la dernière analyse
+    // - **En cas de parallélisme** : Les durées s'additionnent même si les analyses sont simultanées
+    static computeEfficiency(samples: Sample[], schedules: ScheduleEntry[], totalTime: number): number {
+        if (schedules.length === 0) return 0;
+        const totalAnalysisTime: number = samples.reduce((sum, s) => sum + s.analysisTime, 0);
+        const efficiency: number = Math.min((totalAnalysisTime / totalTime) * 100, 100);
+        return UtilNumber.roundOneDecimal(efficiency);
     }
 
     static computeConflicts(occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]>, occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]>): number {
