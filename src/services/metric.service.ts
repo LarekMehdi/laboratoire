@@ -18,31 +18,17 @@ export abstract class MetricService {
     static computeEfficiency(schedules: ScheduleEntry[], totalTime: number): number {
         if (schedules.length === 0 || totalTime === 0) return 0;
 
-        // récupérer tous les intervalles en milisecondes
-        const intervals: ScheduleSlotMillisecond[] = schedules.map(s => ({ start: s.startTime.getTime(), end: s.endTime.getTime() }));
-        
-        // trier par startTime
-        intervals.sort((a, b) => a.start - b.start);
+        // On additionne les durées des slots
+        const totalActiveMinutes = schedules.reduce((sum, s) => {
+            const start = s.startTime.getTime();
+            const end = s.endTime.getTime();
+            return sum + (end - start) / 60000;
+        }, 0);
 
-        // fusionner les intervalles pour enlever les chevauchements
-        const merged: ScheduleSlotMillisecond[] = [];
-        for (const interval of intervals) {
-            if (merged.length === 0) {
-                merged.push({ ...interval });
-            } else {
-                const last = merged[merged.length - 1];
-                if (interval.start <= last.end) {
-                    // chevauchement, on étend la fin
-                    last.end = Math.max(last.end, interval.end);
-                } else {
-                    merged.push({ ...interval });
-                }
-            }
-        }
+        // efficacité = charge totale / durée globale
+        const rawEfficiency = (totalActiveMinutes / totalTime) * 100;
 
-        // durée totale occupée en minute
-        const totalActiveMinutes = merged.reduce((sum, i) => sum + (i.end - i.start) / 60000, 0);
-        return UtilNumber.roundOneDecimal(Math.min(100, ((totalActiveMinutes / totalTime) * 100)));
+        return UtilNumber.roundOneDecimal(Math.min(rawEfficiency, 100));
     }
 
     static computeConflicts(occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]>, occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]>): number {

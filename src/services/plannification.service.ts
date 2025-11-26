@@ -44,7 +44,6 @@ export abstract class PlannificationService {
                 occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
             }
             
-    
             // premiere ressource dispo
             const technician: Technician = UtilCollection.pickResourceForSlot<Technician>(technicianList, occupiedSlot, occupiedSlotsByTechnicianId);
             const equipment: Equipment = UtilCollection.pickResourceForSlot<Equipment>(equipmentList, occupiedSlot, occupiedSlotsByEquipmentId);
