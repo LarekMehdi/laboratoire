@@ -1,5 +1,5 @@
 import { SPECIALITY } from "../constantes/speciality.constante";
-import { HasId } from "./has-id.class";
+import { HasId } from "../interfaces/has-id.interface";
 
 export class Technician implements HasId{
 

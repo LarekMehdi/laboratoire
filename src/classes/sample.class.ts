@@ -1,6 +1,6 @@
 import { PRIORITY } from "../constantes/priority.constante";
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
-import { HasId } from "./has-id.class";
+import { HasId } from "../interfaces/has-id.interface";
 
 export class Sample implements HasId{
 

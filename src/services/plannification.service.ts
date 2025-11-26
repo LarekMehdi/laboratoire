@@ -1,14 +1,14 @@
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
 import { MAX_DATE } from "../constantes/settings.constante";
 import { SPECIALITY } from "../constantes/speciality.constante";
-import { Equipment } from "../interfaces/equipment.class";
-import { Sample } from "../interfaces/sample.class";
-import { ScheduleEntry } from "../interfaces/schedule-entry.class";
+import { ScheduleEntry } from "../classes/schedule-entry.class";
 import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
-import { Technician } from "../interfaces/technician.class";
 import { UtilCollection } from "../utils/collection.util";
 import { UtilConstante } from "../utils/constante.util";
 import { UtilDate } from "../utils/date.util";
+import { Equipment } from "../classes/equipment.class";
+import { Sample } from "../classes/sample.class";
+import { Technician } from "../classes/technician.class";
 
 export abstract class PlannificationService {
 

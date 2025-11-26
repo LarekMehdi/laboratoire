@@ -1,14 +1,14 @@
 import { PRIORITY } from "../constantes/priority.constante";
 import { SAMPLE_TYPE } from "../constantes/sample-type.constante";
 import { SPECIALITY } from "../constantes/speciality.constante";
-import { Equipment } from "../interfaces/equipment.class";
-import { InputData } from "../interfaces/input-data.class";
+import { InputData } from "../classes/input-data.class";
 import { RawEquipment, RawInputData, RawSample, RawTechnician } from "../interfaces/raw.interface";
-import { Sample } from "../interfaces/sample.class";
-import { ScheduleEntry } from "../interfaces/schedule-entry.class";
+import { ScheduleEntry } from "../classes/schedule-entry.class";
 import { ScheduleOutput } from "../interfaces/schedule-output.interface";
-import { Technician } from "../interfaces/technician.class";
 import { UtilDate } from "./date.util";
+import { Equipment } from "../classes/equipment.class";
+import { Sample } from "../classes/sample.class";
+import { Technician } from "../classes/technician.class";
 
 export abstract class UtilMapper {
 

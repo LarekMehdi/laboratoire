@@ -1,5 +1,5 @@
-import { Sample } from "../interfaces/sample.class";
-import { ScheduleEntry } from "../interfaces/schedule-entry.class";
+import { Sample } from "../classes/sample.class";
+import { ScheduleEntry } from "../classes/schedule-entry.class";
 import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
 import { UtilNumber } from "../utils/number.util";
 

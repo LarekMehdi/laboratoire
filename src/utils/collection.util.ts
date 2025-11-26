@@ -1,4 +1,4 @@
-import { HasId } from "../interfaces/has-id.class";
+import { HasId } from "../interfaces/has-id.interface";
 import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
 
 export abstract class UtilCollection {

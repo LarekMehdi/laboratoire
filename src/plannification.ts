@@ -2,19 +2,19 @@ import { PRIORITY } from "./constantes/priority.constante";
 import { SAMPLE_TYPE } from "./constantes/sample-type.constante";
 import { SPECIALITY } from "./constantes/speciality.constante";
 import { inputSimple1, inputSimple2, inputSimple3, inputSimple4, inputSimple5, inputSimple6, inputSimple7, inputSimple8 } from "./inputs/simple.input";
-import { Equipment } from "./interfaces/equipment.class";
-import { InputData } from "./interfaces/input-data.class";
-import { Metric } from "./interfaces/metric.class";
-import { OutputData } from "./interfaces/output-data.class";
-import { Sample } from "./interfaces/sample.class";
-import { ScheduleEntry } from "./interfaces/schedule-entry.class";
+import { InputData } from "./classes/input-data.class";
+import { Metric } from "./classes/metric.class";
+import { ScheduleEntry } from "./classes/schedule-entry.class";
 import { ScheduleOutput } from "./interfaces/schedule-output.interface";
 import { ScheduleSlot } from "./interfaces/schedule-slot.interface";
-import { Technician } from "./interfaces/technician.class";
 import { MetricService } from "./services/metric.service";
 import { PlannificationService } from "./services/plannification.service";
 import { UtilCollection } from "./utils/collection.util";
 import { UtilMapper } from "./utils/mapper.util";
+import { Equipment } from "./classes/equipment.class";
+import { OutputData } from "./classes/output-data.class";
+import { Sample } from "./classes/sample.class";
+import { Technician } from "./classes/technician.class";
 
 function planifyLab(data: InputData): OutputData {
     
