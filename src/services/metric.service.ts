@@ -1,3 +1,4 @@
+import { Metric } from "../classes/metric.class";
 import { Sample } from "../classes/sample.class";
 import { ScheduleEntry } from "../classes/schedule-entry.class";
 import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
@@ -5,8 +6,15 @@ import { UtilNumber } from "../utils/number.util";
 
 export abstract class MetricService {
 
+    static computeMetrics(samples: Sample[], schedules: ScheduleEntry[], occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]>, occupiedSlotsByEquipmentId: Map<string, ScheduleSlot[]>): Metric {
+        const totalTime: number = MetricService.computeTotalTime(samples, schedules);
+        const efficiency: number = MetricService.computeEfficiency(samples, schedules, totalTime);
+        const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
+        return new Metric(totalTime, efficiency, conflict);
+    }
 
-    // - **Temps total** : Durée entre le début de la première analyse et la fin de la dernière analyse
+
+    // - **Temps total** : durée entre l'arrivé du premier sample et la fin du dernier traitement
     static computeTotalTime(samples: Sample[], schedules: ScheduleEntry[]): number {
         if (schedules.length === 0) return 0;
         const minArrival = Math.min(...samples.map(s => s.arrivalTime.getTime()));
@@ -14,6 +22,7 @@ export abstract class MetricService {
         return (maxEnd - minArrival) / 60000;
     }
 
+    // TODO: a revoir, calcul pas bon
     // % de temps où les ressources sont utilisées
     // (temps actif) / (temps total) * 100
     // - **Somme des durées** : Addition de tous les `analysisTime` des échantillons

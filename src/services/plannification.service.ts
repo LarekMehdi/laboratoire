@@ -26,7 +26,6 @@ export abstract class PlannificationService {
             let technicianSlots = technicianList.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
             const equipmentSlots = equipmentList.map(e => this.getAvailableSlots(occupiedSlotsByEquipmentId.get(e.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
     
-
             // trouver le premier créneau commun
             let occupiedSlot: ScheduleSlot;
             try {
