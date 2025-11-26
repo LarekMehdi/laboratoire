@@ -9,6 +9,7 @@ import { UtilDate } from "../utils/date.util";
 import { Equipment } from "../classes/equipment.class";
 import { Sample } from "../classes/sample.class";
 import { Technician } from "../classes/technician.class";
+import { HasId } from "../interfaces/has-id.interface";
 
 export abstract class PlannificationService {
 
@@ -17,14 +18,13 @@ export abstract class PlannificationService {
         const schedules: ScheduleEntry[] = []
 
         for (const sample of samples) {
-            // liste des techos
+            // récupération des ressources pour la spécialité
             let spe: SPECIALITY = UtilConstante.findTechnicianSpecialityForSampleType(sample.type);
             let technicianList: Technician[] = techniciansBySpeciality.get(spe) ?? [];
-            // liste des équipement
             const equipmentList: Equipment[] = equipmentsByType.get(sample.type) ?? [];
-    
-            let technicianSlots = technicianList.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
-            const equipmentSlots = equipmentList.map(e => this.getAvailableSlots(occupiedSlotsByEquipmentId.get(e.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
+
+            let technicianSlots = this.__buildSlotsForResources(technicianList, occupiedSlotsByTechnicianId, sample.arrivalTime);
+            const equipmentSlots = this.__buildSlotsForResources(equipmentList, occupiedSlotsByEquipmentId, sample.arrivalTime);
     
             // trouver le premier créneau commun
             let occupiedSlot: ScheduleSlot;
@@ -91,5 +91,9 @@ export abstract class PlannificationService {
         }
         // TODO: erreur personnalisée
         throw new Error("No available common slot");
+    }
+
+    private static __buildSlotsForResources(resources: HasId[], occupied: Map<string, ScheduleSlot[]>, start: Date): ScheduleSlot[] {
+        return resources.map(r => this.getAvailableSlots(occupied.get(r.id) ?? [], start, MAX_DATE)).flat();
     }
 }
