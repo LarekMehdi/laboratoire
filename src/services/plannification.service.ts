@@ -11,6 +11,7 @@ import { Sample } from "../classes/sample.class";
 import { Technician } from "../classes/technician.class";
 import { HasId } from "../interfaces/has-id.interface";
 import { UtilEntity } from "../utils/entity.util";
+import { SlotWithTechnicianList } from "../interfaces/slot.interface";
 
 export abstract class PlannificationService {
 
@@ -28,24 +29,10 @@ export abstract class PlannificationService {
             const equipmentSlots = this.__buildSlotsForResources(equipmentList, occupiedSlotsByEquipmentId, sample.arrivalTime);
     
             // trouver le premier créneau commun
-            let occupiedSlot: ScheduleSlot;
-            try {
-                // spécialité normale
-                occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
-            } catch(err: unknown) {
-                // spécialité GENERAL
-                const generalTechs = techniciansBySpeciality.get(SPECIALITY.GENERAL) ?? [];
+            const { slot: occupiedSlot, technicianList: realTechList}: SlotWithTechnicianList = this.__findSlotWithFallback(technicianList, technicianSlots, equipmentSlots, sample, techniciansBySpeciality, occupiedSlotsByTechnicianId);
 
-                if (generalTechs.length === 0) throw new Error("No available common slot, even with general technician");
-
-                technicianList = generalTechs;
-                technicianSlots = generalTechs.map(t => this.getAvailableSlots(occupiedSlotsByTechnicianId.get(t.id) ?? [], sample.arrivalTime, MAX_DATE)).flat();
-
-                occupiedSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
-            }
-            
             // premiere ressource dispo
-            const technician: Technician = UtilCollection.pickResourceForSlot<Technician>(technicianList, occupiedSlot, occupiedSlotsByTechnicianId);
+            const technician: Technician = UtilCollection.pickResourceForSlot<Technician>(realTechList, occupiedSlot, occupiedSlotsByTechnicianId);
             const equipment: Equipment = UtilCollection.pickResourceForSlot<Equipment>(equipmentList, occupiedSlot, occupiedSlotsByEquipmentId);
     
             // maj des slots occupés
@@ -89,4 +76,26 @@ export abstract class PlannificationService {
     private static __buildSlotsForResources(resources: HasId[], occupied: Map<string, ScheduleSlot[]>, start: Date): ScheduleSlot[] {
         return resources.map(r => this.getAvailableSlots(occupied.get(r.id) ?? [], start, MAX_DATE)).flat();
     }
+
+    private static __findSlotWithFallback(technicianList: Technician[], technicianSlots: ScheduleSlot[], 
+                equipmentSlots: ScheduleSlot[], sample: Sample, techniciansBySpeciality: Map<SPECIALITY, Technician[]>, occupiedSlotsByTechnicianId: Map<string, ScheduleSlot[]>): SlotWithTechnicianList {
+        try {
+            // spécialité normale
+            const slot: ScheduleSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
+            return {slot, technicianList}
+        } catch(_) {
+            // spécialité GENERAL
+            const generalTechs = techniciansBySpeciality.get(SPECIALITY.GENERAL) ?? [];
+
+            if (generalTechs.length === 0) throw new Error("No available common slot, even with general technician");
+
+            technicianList = generalTechs;
+            const generalSlots: ScheduleSlot[] = this.__buildSlotsForResources(generalTechs, occupiedSlotsByTechnicianId, sample.arrivalTime);
+
+            const slot: ScheduleSlot = this.findEarliestCommonSlot(generalSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);                
+            return {slot, technicianList} 
+        }
+    }
+
+    
 }
