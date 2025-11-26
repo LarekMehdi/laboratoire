@@ -10,6 +10,7 @@ import { Equipment } from "../classes/equipment.class";
 import { Sample } from "../classes/sample.class";
 import { Technician } from "../classes/technician.class";
 import { HasId } from "../interfaces/has-id.interface";
+import { UtilEntity } from "../utils/entity.util";
 
 export abstract class PlannificationService {
 
@@ -52,15 +53,7 @@ export abstract class PlannificationService {
             occupiedSlotsByEquipmentId.set(equipment.id, [...(occupiedSlotsByEquipmentId.get(equipment.id) ?? []), occupiedSlot]);
     
             // création du schedule pour résultat final
-            const schedule: ScheduleEntry = {
-                sampleId: sample.id,
-                technicianId: technician.id,
-                equipmentId: equipment.id,
-                startTime: occupiedSlot.start,
-                endTime: occupiedSlot.end,
-                priority: sample.priority
-            };
-            schedules.push(schedule);
+            schedules.push(UtilEntity.createScheduleEntry(sample, technician, equipment, occupiedSlot));
         }
         return schedules;
     }
