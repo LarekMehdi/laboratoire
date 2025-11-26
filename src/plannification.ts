@@ -55,16 +55,8 @@ function planifyLab(data: InputData): OutputData {
     const routineSchedules: ScheduleEntry[] = PlannificationService.getScheduleList(sortedRoutineSamples, techniciansBySpeciality, equipmentsByType, occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId);
     schedules = schedules.concat(routineSchedules);
 
-    
-
-
-
-
-
-
     // création des résultats
-    const totalTime: number = MetricService.computeTotalTime(schedules);
-    //const efficiency: number = MetricService.computeEfficiency2(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId, totalTime);
+    const totalTime: number = MetricService.computeTotalTime(samples, schedules);
     const efficiency: number = MetricService.computeEfficiency(schedules, totalTime);
     const conflict: number = MetricService.computeConflicts(occupiedSlotsByTechnicianId, occupiedSlotsByEquipmentId)
     const metric = new Metric(totalTime, efficiency, conflict);
@@ -73,6 +65,7 @@ function planifyLab(data: InputData): OutputData {
 
 const simpleInput1: InputData = UtilMapper.mapInputData(inputSimple1);
 const simpleInput2: InputData = UtilMapper.mapInputData(inputSimple2);
+console.log('inputSimple2 => ', inputSimple2);
 //const simpleInput3: InputData = UtilMapper.mapInputData(inputSimple3);
 
 const result1: OutputData = planifyLab(simpleInput1);
