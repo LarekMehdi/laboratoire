@@ -9,6 +9,7 @@ import { UtilDate } from "./date.util";
 import { Equipment } from "../classes/equipment.class";
 import { Sample } from "../classes/sample.class";
 import { Technician } from "../classes/technician.class";
+import { InvalidEnumValueError } from "../errors/invalid-enum-value.error";
 
 export abstract class UtilMapper {
 
@@ -49,7 +50,7 @@ export abstract class UtilMapper {
 
     static toEnum<T>(value: string, enumType: Record<string, T>): T {
         if (!Object.values(enumType).includes(value as T)) {
-            throw new Error(`Invalid enum value: ${value}`);
+            throw new InvalidEnumValueError(value);
         }
         return value as T;
     }

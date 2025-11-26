@@ -1,3 +1,4 @@
+import { NoResourceError } from "../errors/no-resource.error";
 import { HasId } from "../interfaces/has-id.interface";
 import { ScheduleSlot } from "../interfaces/schedule-slot.interface";
 
@@ -32,7 +33,7 @@ export abstract class UtilCollection {
     // retourne la premiere ressource dispo sur un slot donné
     static pickResourceForSlot<T extends HasId>(resources: T[], slot: ScheduleSlot, occupied: Map<string, ScheduleSlot[]>): T {
         const available: T | undefined = resources.find(r => (occupied.get(r.id) ?? []).every(s => slot.end <= s.start || slot.start >= s.end));
-        if (!available) throw new Error(`No resource available for slot ${slot.start.toISOString()} - ${slot.end.toISOString()}`);
+        if (!available) throw new NoResourceError(slot.start, slot.end);
         
         return available;
     }

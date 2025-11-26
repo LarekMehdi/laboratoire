@@ -12,6 +12,7 @@ import { Technician } from "../classes/technician.class";
 import { HasId } from "../interfaces/has-id.interface";
 import { UtilEntity } from "../utils/entity.util";
 import { SlotWithTechnicianList } from "../interfaces/slot.interface";
+import { NoSlotError } from "../errors/no-slot.error";
 
 export abstract class PlannificationService {
 
@@ -69,8 +70,7 @@ export abstract class PlannificationService {
                 }
             }
         }
-        // TODO: erreur personnalisée
-        throw new Error("No available common slot");
+        throw new NoSlotError(arrivalTime, duration);
     }
 
     private static __buildSlotsForResources(resources: HasId[], occupied: Map<string, ScheduleSlot[]>, start: Date): ScheduleSlot[] {
@@ -83,17 +83,22 @@ export abstract class PlannificationService {
             // spécialité normale
             const slot: ScheduleSlot = this.findEarliestCommonSlot(technicianSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);
             return {slot, technicianList}
-        } catch(_) {
-            // spécialité GENERAL
-            const generalTechs = techniciansBySpeciality.get(SPECIALITY.GENERAL) ?? [];
+        } catch(err: unknown) {
+            if (err instanceof NoSlotError) {
+                // spécialité GENERAL
+                const generalTechs = techniciansBySpeciality.get(SPECIALITY.GENERAL) ?? [];
 
-            if (generalTechs.length === 0) throw new Error("No available common slot, even with general technician");
+                if (generalTechs.length === 0) throw new NoSlotError(sample.arrivalTime, sample.analysisTime, "No slot found for general technician");
 
-            technicianList = generalTechs;
-            const generalSlots: ScheduleSlot[] = this.__buildSlotsForResources(generalTechs, occupiedSlotsByTechnicianId, sample.arrivalTime);
+                technicianList = generalTechs;
+                const generalSlots: ScheduleSlot[] = this.__buildSlotsForResources(generalTechs, occupiedSlotsByTechnicianId, sample.arrivalTime);
 
-            const slot: ScheduleSlot = this.findEarliestCommonSlot(generalSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);                
-            return {slot, technicianList} 
+                const slot: ScheduleSlot = this.findEarliestCommonSlot(generalSlots, equipmentSlots, sample.arrivalTime, sample.analysisTime);                
+                return {slot, technicianList} 
+            } else {
+                throw err;
+            }
+            
         }
     }
 
